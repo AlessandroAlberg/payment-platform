@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: shared_payment_db_project
+    image: postgres:11.8
+    environment:
+      POSTGRES_DB: "dev_payments_db"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "user"
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    networks:
+      - app-network
+    external_links:
+      - app-network
+    volumes:
+      - /var/lib/postgresql/data 
+  payments:
+    build:
+      context: .
+    entrypoint: yarn start:dev 
+    depends_on:
+      - postgres
+    environment:
+      - TYPEORM_TYPE=postgres
+      - TYPEORM_HOST=postgres
+      - TYPEORM_PORT=5432
+      - TYPEORM_USERNAME=user
+      - TYPEORM_PASSWORD=password
+      - TYPEORM_DATABASE=dev_payments_db
+      - HTTP_TIMEOUT=30000
+      - NODE_ENV=development
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/usr/app/src
+      - ./node_modules:/usr/app/node_modules
+      - ./migrations:/usr/app/migrations
+      - ./test:/usr/app/test
+    networks:
+      - app-network
+    external_links:
+      - app-network
+networks:
+  app-network:
+    external: true

@@ -1,0 +1,7 @@
+export const generic = 'api_error'
+export const badRequest = 'bad_request'
+export const invalidRequestError = 'invalid_request_error'
+export const databaseFailed = 'database_failed'
+export const entityNotFound = 'entity_not_found'
+export const notFound = 'not_found'
+export const businessError = 'business_error'

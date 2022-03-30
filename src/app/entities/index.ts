@@ -1,0 +1,1 @@
+export { Payment, StatusPayment } from './payment.entity'
