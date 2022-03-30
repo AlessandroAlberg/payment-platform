@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreatePaymentAdapter } from '../adapters/create-payment.adapter'
 import { Payment } from '../entities/payment.entity'
 import { LoggerService } from '../logger/logger.service'
+import { dueDateChecker } from '../utils/dueDateChecker'
 import { CreatePaymentDto } from './dtos/create-payment.dto'
 import { UpdatePaymentDto, UpdatePaymentOutput } from './dtos/update-payment.dto'
 
@@ -21,6 +22,9 @@ export class PaymentsService {
   async create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
     this.loggerService.info(`Calling #${this.create.name}`)
     const payment = CreatePaymentAdapter.toDomain(createPaymentDto)
+
+    if (dueDateChecker(payment.expectedOn)) 
+     throw new BadRequestException(`Data de vencimento expirada`)
 
     return this.PaymentRepository.save(payment)
   }

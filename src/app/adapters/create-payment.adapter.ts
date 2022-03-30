@@ -18,8 +18,8 @@ export class CreatePaymentAdapter {
 	static toDomain(paymentDto: CreatePaymentDto): Payment {
 		const payment = new Payment()
 		payment.externalId = paymentDto.externalId
-		payment.amount = paymentDto.amount
-		payment.expectedOn = moment(paymentDto.expectedOn, "DD-MM-YYYY").toDate()
+		payment.amount = parseFloat(paymentDto.amount.toFixed(2))
+		payment.expectedOn = paymentDto.expectedOn ? moment(paymentDto.expectedOn, "DD-MM-YYYY").toDate() : null
 		return payment
 	}
 

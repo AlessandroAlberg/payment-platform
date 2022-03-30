@@ -20,8 +20,8 @@ export class PaymentAdapter {
 			internalId: payment.id,
 			externalId: payment.externalId,
 			status: payment.status,
-			amount: payment.amount,
-			expectedOn: moment(payment.expectedOn).format('DD-MM-YYYY')
+			amount: Number(payment.amount),
+			expectedOn: payment.expectedOn ? moment(payment.expectedOn).format('DD-MM-YYYY') : undefined
 		}
 	}
 

@@ -2,8 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from './../src/app.module'
+import * as moment from 'moment'
 
 const paymentBody = {
+  externalId: "4db75773-e427-48fb-a808-2652225ef964",
+  amount: 1000.78954,
+  expectedOn: moment(new Date()).format('DD-MM-YYYY')
+}
+
+const paymentBody2 = {
   externalId: "4db75773-e427-48fb-a808-2652225ef964",
   amount: 1000,
   expectedOn: "25-09-2000"
@@ -41,6 +48,15 @@ describe('PaymentsController (e2e)', () => {
     })
   })
 
+  describe('POST /paymentsOrders expired due date', () => {
+    it('should return error 400', async() => {
+      await request(app.getHttpServer())
+          .post('/paymentsOrders')
+          .send(paymentBody2)
+          .expect(400)
+    })
+  })
+
   describe('GET /paymentsOrders/:internalId', () => {
     it('should return payment of the internalId', async() => {
       const response = await request(app.getHttpServer())
@@ -56,10 +72,10 @@ describe('PaymentsController (e2e)', () => {
 
       expect(res.body).toEqual(
           expect.objectContaining({
-            internalId: expect.any(String),
+            internalId: internalId,
             externalId: paymentBody.externalId,
             status: "APPROVED",
-            amount: paymentBody.amount,
+            amount: parseFloat(paymentBody.amount.toFixed(2)),
             expectedOn: paymentBody.expectedOn
         })
       )

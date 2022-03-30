@@ -40,15 +40,15 @@ export class Payment extends RootEntity {
     })
     public status = StatusPayment.Created
 
-	@Column({
-        nullable: true
+	@Column("decimal", {
+        nullable: true,
     })
     public amount!: number
 
 	@Column({
         type: 'date',
         name: 'expected_on',
-        nullable: false
+        nullable: true
     })
-    public expectedOn!: Date
+    public expectedOn?: Date
 }

@@ -16,9 +16,10 @@ export class CreatePaymentDto {
   readonly amount!: number
 
   @ApiProperty({ example: "dd-mm-yyyy" })
+  @IsOptional({ always: true })
   @IsNotEmpty({always: true})
   @IsString({always: true})
-  readonly expectedOn: string
+  readonly expectedOn?: string
 
 }
 
