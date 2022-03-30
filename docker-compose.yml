@@ -21,7 +21,7 @@ services:
   payments:
     build:
       context: .
-    entrypoint: ["yarn", "start:dev"] 
+    entrypoint: ["yarn", "start:dev", "yarn", "migration:run"] 
     depends_on:
       - postgres
     environment:
