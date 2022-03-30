@@ -13,6 +13,12 @@ Liquidação do banco e retornar uma resposta para o serviço do cliente.
 /api-docs
 ```
 
+## Executar APP com Docker
+
+```bash
+$ docker-compose up
+```
+
 ## Instalação
 
 ```bash
@@ -30,12 +36,6 @@ $ yarn start:dev
 
 # production mode
 $ yarn start:prod
-```
-
-## Executar APP com Docker
-
-```bash
-$ docker-compose up
 ```
 
 ## Executar Testes
